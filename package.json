@@ -1,0 +1,30 @@
+{
+  "name": "arvis-figma-shortcuts",
+  "version": "0.0.2",
+  "description": "arvis workflow to quick link figma projects and files",
+  "main": "index.js",
+  "author": {
+    "name": "Jon Rohan",
+    "email": "yes@jonrohan.codes",
+    "url": "http://jonrohan.codes/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "arvish-init",
+    "preuninstall": "arvish-cleanup",
+    "prepublishOnly": "arvish-prepublish"
+  },
+  "keywords": [
+    "arvis",
+    "arvis-workflow",
+    "figma",
+    "figma-api",
+    "design",
+    "design-tools"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "arvish": ">=0.6.1",
+    "pretty-ms": "^4.0.0"
+  }
+}

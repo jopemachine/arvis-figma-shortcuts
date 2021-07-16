@@ -1,0 +1,109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jopemachine/arvis-extension-validator/master/workflow-schema.json",
+  "defaultIcon": "icon.png",
+  "category": "Developer",
+  "name": "arvis-figma-shortcuts",
+  "version": "0.0.2",
+  "description": "arvis workflow to quick link figma projects and files",
+  "webAddress": "https://github.com/arvis-workflows/arvis-figma-shortcuts",
+  "creator": "Jon Rohan",
+  "readme": "# Figma arvis workflow\n\n> arvis workflow to quick link Figma teams, projects and files\n\n## TODO:\n\n- Figma's API doesn't allow access to draft files.\n- Figma's API doesn't allow access to get teams. This requires adding team ids to the workflow manually.\n- Files open in the desktop app, but teams and projects won't.\n\n## Installation\n\n```\n$ npm install --global arvis-figma\n```\n\n*Requires [Node.js](https://nodejs.org) 10+ and the arvis [Powerpack](https://www.arvisapp.com/powerpack/).*\n\n## Configuration\n\nThere are a couple of requirements.\n\n1. You need a [Figma account](https://www.figma.com) and be part of a team.\n2. Create a [Personal Access Token](https://www.figma.com/developers/docs#auth-dev-token) so you can reach the API.\n3. Create a `.env` file with your access token in the directory of the installed workflow.\n   - `FIGMA_TOKEN=<personal-access-token>`\n   - Alternatively add an environment variable for `FIGMA_TOKEN`\n4. Add a team to your results with the `figma add [teamurl]` command.\n\n## Usage\n\nThe workflow lists results of 3 items teams, projects and files.\n\n### Teams\n\n- <kbd>⏎</kbd> Open team page.\n- <kbd>⌥</kbd> + <kbd>⏎</kbd> Remove team from workflow.\n- <kbd>⌘</kbd> + <kbd>⏎</kbd> Open team page in web browser.\n\n### Projects\n\n- <kbd>⏎</kbd> Open project page.\n- <kbd>⌘</kbd> + <kbd>⏎</kbd> Open project page in web browser.\n\n### Files\n\n- <kbd>⏎</kbd> Open file.\n- <kbd>⌥</kbd> + <kbd>⏎</kbd> Duplicate file to your drafts.\n- <kbd>⌘</kbd> + <kbd>⏎</kbd> Open file in web browser.\n\n## Credits\n\n- [arvish](https://github.com/sindresorhus/arvish) made by [Sindre Sorhus](https://sindresorhus.com/) is licensed by [MIT](https://github.com/sindresorhus/arvish/blob/master/license)\n\n\n## License\n\nMIT © [Jon Rohan](http://jonrohan.codes/)",
+  "enabled": true,
+  "variables": {
+    "FIGMA_TOKEN": ""
+  },
+  "commands": [
+    {
+      "type": "scriptFilter",
+      "command": "figma",
+      "title": "Figma Shortcuts",
+      "subtitle": "",
+      "scriptFilter": "node index.js \"{query}\"",
+      "runningSubtext": "Searching figma api...",
+      "withspace": true,
+      "argType": "required",
+      "actions": [
+        {
+          "modifiers": "normal",
+          "type": "cond",
+          "if": {
+            "cond": "{var:action} == \"browser\"",
+            "actions": {
+              "then": [
+                {
+                  "modifiers": "normal",
+                  "type": "open",
+                  "target": "{query}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "modifiers": "normal",
+          "type": "cond",
+          "if": {
+            "cond": "{var:action} == \"add\"",
+            "actions": {
+              "then": [
+                {
+                  "modifiers": "normal",
+                  "type": "script",
+                  "script": "node lib/addTeam.js \"{query}\"",
+                  "actions": [
+                    {
+                      "modifiers": "normal",
+                      "type": "notification",
+                      "title": "Figma Shortcuts",
+                      "text": "{var:notification}"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "modifiers": "normal",
+          "type": "cond",
+          "if": {
+            "cond": "{var:action} == \"remove\"",
+            "actions": {
+              "then": [
+                {
+                  "modifiers": "normal",
+                  "type": "script",
+                  "script": "node lib/removeTeam.js \"{query}\"",
+                  "actions": [
+                    {
+                      "modifiers": "normal",
+                      "type": "notification",
+                      "title": "Figma Shortcuts",
+                      "text": "{var:notification}"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "modifiers": "normal",
+          "type": "cond",
+          "if": {
+            "cond": "{var:action} == \"rerun\"",
+            "actions": {
+              "then": [
+                {
+                  "type": "resetInput",
+                  "modifiers": "normal",
+                  "newInput": "{query}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
