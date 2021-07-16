@@ -3,7 +3,7 @@
   "defaultIcon": "icon.png",
   "category": "Developer",
   "name": "arvis-figma-shortcuts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "arvis workflow to quick link figma projects and files",
   "webAddress": "https://github.com/arvis-workflows/arvis-figma-shortcuts",
   "creator": "Jon Rohan",
@@ -21,7 +21,7 @@
       "scriptFilter": "node index.js \"{query}\"",
       "runningSubtext": "Searching figma api...",
       "withspace": true,
-      "argType": "required",
+      "argType": "optional",
       "actions": [
         {
           "modifiers": "normal",
